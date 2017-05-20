@@ -37,11 +37,11 @@ func main() {
 	defer session.Close()
 
 	cc := session.DB("vianca-db").C("vuelo")
-	err = cc.Insert(&flight{"001", "Medellin", "Bogota", "100000", "USD"},
-		&flight{"002", "Medellin", "Barranquilla", "150000", "USD"})
-	if err != nil {
-		log.Fatal(err)
-	}
+	//err = cc.Insert(&flight{"001", "Medellin", "Bogota", "100000", "USD"},
+	//	&flight{"002", "Medellin", "Barranquilla", "150000", "USD"})
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 
 	//result := flight{}
 	var results []flight
@@ -53,7 +53,7 @@ func main() {
 	}
 
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"results": results})
+		c.JSON(http.StatusOK, gin.H{"code": "12345", "name": "Vianca Airlines", "thumbnail":"https://image.freepik.com/icones-gratuites/avion-noir_318-31722.jpg", "results": results})
 	})
 
 	router.Run(":" + port)
