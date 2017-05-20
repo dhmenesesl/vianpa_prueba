@@ -12,8 +12,13 @@ import (
 )
 
 type flight struct {
-	Origen  string
-	Destino string
+
+	Flightcode  string
+	Origin string
+	Destination string
+	Price string
+	Currency string
+
 }
 
 func main() {
@@ -32,21 +37,21 @@ func main() {
 	defer session.Close()
 
 	cc := session.DB("vianca-db").C("vuelo")
-	//err = cc.Insert(&flight{"Medellin", "Bogota"},
-	//				&flight{"Medellin2", "Barranquilla"})
+	//err = cc.Insert(&flight{"001", "Medellin", "Bogota", "100000", "USD"},
+	//	&flight{"002", "Medellin", "Barranquilla", "150000", "USD"})
 	//if err != nil {
 	//	log.Fatal(err)
 	//}
 
 	result := flight{}
-	err = cc.Find(bson.M{"origen": "Medellin2"}).One(&result)
+	err = cc.Find(bson.M{"origin": "Medellin"}).One(&result)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	router.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "hola mundo" , "salida": result.Origen, "destino": result.Destino})
+		c.JSON(http.StatusOK, gin.H{"flightcode": result.Flightcode, "origin": result.Origin, "destination": result.Destination, "price": result.Price, "currency": result.Currency })
 	})
 
 	router.Run(":" + port)
