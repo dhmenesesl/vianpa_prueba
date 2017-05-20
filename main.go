@@ -25,18 +25,18 @@ func main() {
 		port = "8080"
 	}
 
-	session, err := mgo.Dial("localhost:27017")
+	session, err := mgo.Dial("mongodb://admin:admin@ds147551.mlab.com:47551/vianca-db")
 	if err != nil {
 		panic(err)
 	}
 	defer session.Close()
 
-	cc := session.DB("db").C("vuelo")
-	err = cc.Insert(&flight{"Medellin", "Bogota"},
-					&flight{"Medellin2", "Barranquilla"})
-	if err != nil {
-		log.Fatal(err)
-	}
+	cc := session.DB("vianca-db").C("vuelo")
+	//err = cc.Insert(&flight{"Medellin", "Bogota"},
+	//				&flight{"Medellin2", "Barranquilla"})
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 
 	result := flight{}
 	err = cc.Find(bson.M{"origen": "Medellin2"}).One(&result)
